@@ -5,14 +5,12 @@ class SoftDeleteModelManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().exclude(deleted=True)
 
-    def all_objects(self):
-        return super().get_queryset()
-
 
 class SoftDeletableModel(models.Model):
     deleted = models.BooleanField(default=False)
 
     objects = SoftDeleteModelManager()
+    all_objects = models.Manager()
 
     class Meta:
         abstract = True

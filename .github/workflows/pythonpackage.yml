@@ -25,7 +25,7 @@ jobs:
     - name: Set up Django ${{ matrix.django-version }}
       run: |
         ls
-        sed 's/Django==.*/Django==${{ matrix.django-version }}/' requirements.txt > requirements.txt
+        sed 's/Django==.*/Django==${{ matrix.django-version }}/' requirements.txt
         cat requirements.txt
         echo $(cat requirements.txt)
     - run: cat requirements.txt

@@ -28,6 +28,7 @@ jobs:
         sed 's/Django==.*/Django==${{ matrix.django-version }}/' requirements.txt > requirements.txt
         cat requirements.txt
         echo $(cat requirements.txt)
+    - run: cat requirements.txt
 #    - name: Cache pip
 #      uses: actions/cache@v1
 #      with:

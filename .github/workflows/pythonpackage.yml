@@ -24,7 +24,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Modify requirements.txt to contain proper django version from matrix of options
       run: |
-          sed 's/Django==*/Django==${{ matrix.django-version }}' requirements.txt
+          sed 's/Django==.*/Django==${{ matrix.django-version }}/' requirements.txt > requirements.txt
           cat requirements.txt
     - name: Cache pip
       uses: actions/cache@v1

@@ -1,1 +1,5 @@
 twine==3.1.1
+Django==3.0.5
+pytest==5.4.1
+pytest-django==3.9.0
+pytest-pythonpath==0.7.3

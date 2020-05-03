@@ -3,7 +3,25 @@ django-ckc [<img src="https://ckcollab.com/assets/images/badges/badge.svg" alt="
 tools, utilities, etc. we use across projects @ ckc
 
 
-# distributing
+## installing
+
+```bash
+pip install django-ckc
+```
+
+```python
+# settings.py
+INSTALLED_APPS = (
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.staticfiles",
+    # ... add ckc
+    "ckc",
+)
+```
+
+## distributing
 
 ```bash
 $ ./setup.py sdist

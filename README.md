@@ -24,6 +24,7 @@ INSTALLED_APPS = (
 ## distributing
 
 ```bash
+# change version in setup.cfg
 $ ./setup.py sdist
 $ twine upload dist/*
 ```

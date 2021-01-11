@@ -2,10 +2,14 @@ class DefaultUserCreateMixin:
     """This will automatically set `YourModel.created_by` to `request.user`. To override which
     attribute the user is written to, add a `user_field` to your classes Meta information
     Example:
+        class YourModel(models.Model):
+            owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
         class MySerializer(DefaultUserCreateMixin, ModelSerializer):
             class Meta:
                 model = YourModel
-                # YourModel.owner = a foreign key to request.user
+                # YourModel.owner = a foreign key to request.user which differs from the
+                # default `created_by`
                 user_field = 'owner'
     """
     def create(self, validated_data):

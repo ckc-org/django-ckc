@@ -37,12 +37,12 @@ $ docker-compose exec django py.test
 
 ## what's in this
 
-### `SoftDeletableModel`
+#### `SoftDeletableModel`
 
 Make your models have a `deleted` bool set when they are deleted instead of actuallying 
 being deleted. Uses a model manager `SoftDeleteModelManager` to keep them hidden.
 
-### `DefaultUserCreateMixin` for `ModelSerializers`
+#### `DefaultUserCreateMixin` for `ModelSerializers`
 
 This will automatically set `YourModel.created_by` to `request.user`. To override which
 attribute the user is written to, add a `user_field` to your classes Meta information
@@ -57,7 +57,7 @@ class MySerializer(DefaultUserCreateMixin, ModelSerializer):
         model = YourModel
 ```
 
-### `./manage.py` commands
+#### `./manage.py` commands
 
 | command | description|
 | :---        |    :----:   |

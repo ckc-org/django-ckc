@@ -2,7 +2,7 @@
 twine==3.1.1
 
 # django stuff
-Django==3.0.5
+Django==3.0.7
 djangorestframework==3.12.2
 
 # tests

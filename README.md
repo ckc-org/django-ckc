@@ -28,3 +28,9 @@ INSTALLED_APPS = (
 $ ./setup.py sdist
 $ twine upload dist/*
 ```
+
+## tests
+
+```bash
+$ pytest
+```

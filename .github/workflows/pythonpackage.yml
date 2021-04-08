@@ -31,7 +31,10 @@ jobs:
     - name: Install dependencies
       run: |
         echo "Django version set to '${{ matrix.django-version }}' in requirements.txt"
-        sed 's/Django==.*/Django${{ matrix.django-version }}/' requirements.txt
+        sed 's/Django==.*/Django${{ matrix.django-version }}/' requirements.txt > requirements.txt
+        echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+        cat requirements.txt
+        echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Lint with flake8

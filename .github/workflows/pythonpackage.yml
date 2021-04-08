@@ -19,7 +19,7 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Set up Django ${{ matrix.django-version }}
+    - name: Set up Django version -> ${{ matrix.django-version }} in requirements.txt
       run: |
         sed 's/Django==.*/Django${{ matrix.django-version }}/' requirements.txt
     - name: Cache pip

@@ -37,7 +37,7 @@ jobs:
         export DRF_VERSION=3.12.4
 
         if [ '${{ matrix.django-version }}' == '<2' ]; then
-          DRF_VERSION=11.2
+          DRF_VERSION=3.11.2
         fi
 
           echo "s/djangorestframework==.\*/djangorestframework==$DRF_VERSION/"

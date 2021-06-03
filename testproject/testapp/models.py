@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.gis.db.models import PointField
 from django.db import models
 
 from ckc.models import SoftDeletableModel
@@ -17,3 +18,7 @@ class ModelWithACreator(models.Model):
 
 class ModelWithADifferentNamedCreator(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Location(models.Model):
+    geo_point = PointField()

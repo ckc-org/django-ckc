@@ -10,11 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
-        django-version: ['<2', '<3', '>=3']
+#        python-version: [3.6, 3.7, 3.8]
+#        django-version: ['<2', '<3', '>=3']
+        python-version: [3.8]
+        django-version: ['>=3']
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install GDAL
+      run: |
+        sudo add-apt-repository ppa:ubuntugis/ppa && sudo apt-get update
+        sudo apt-get install libgdal-dev
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:

@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8]
-        django-version: ['<2', '<3', '>=3']
+        django-version: ['<3', '>=3']
 
     steps:
     - uses: actions/checkout@v2
@@ -40,12 +40,9 @@ jobs:
           DRF_VERSION=3.11.2
         fi
 
-          echo "s/djangorestframework==.\*/djangorestframework==$DRF_VERSION/"
-
         echo "Setting versions Django -> ${{ matrix.django-version }} DRF -> $DRF_VERSION in requirements.txt"
         sed -i 's/Django==.*/Django${{ matrix.django-version }}/' requirements.txt
         sed -i "s/djangorestframework==.*/djangorestframework==$DRF_VERSION/" requirements.txt
-        cat requirements.txt
         pip install -r requirements.txt
     - name: Lint with flake8
       run: |

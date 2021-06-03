@@ -33,9 +33,7 @@ $ twine upload dist/*
 ## tests
 
 ```bash
-# get into a virtual env of some kind
-$ pip install -r requirements.txt
-$ pytest
+$ docker build -t django-ckc . && docker run django-ckc pytest
 ```
 
 ## what's in this
@@ -59,6 +57,29 @@ class MySerializer(DefaultUserCreateMixin, ModelSerializer):
     class Meta:
         model = YourModel
 ```
+
+#### `DjangoGeoPointProvider`
+
+Helps generate geo points in Factory Boy factories.
+
+```py
+# factories.py
+class SomeLocationFactory(DjangoModelFactory):
+    location = factory.Faker('geo_point', country_code='US')
+
+    class Meta:
+        model = SomeLocation
+
+# test_whatever.py
+from django.contrib.gis.geos import Point
+
+
+class WhateverTest(TestCase):
+    def test_something(self):
+        SomeLocationFactory()  # random location
+        SomeLocationFactory(location=Point(x=60, y=60))  # specified location
+```
+
 
 #### `./manage.py` commands
 

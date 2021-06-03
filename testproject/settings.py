@@ -5,9 +5,10 @@ DEBUG = True
 
 BASE_DIR = os.path.dirname(__file__)
 
+# NOTE: We're using Geospatial sqlite jazz
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
+        "ENGINE": "django.contrib.gis.db.backends.spatialite",
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
@@ -32,6 +33,7 @@ INSTALLED_APPS = (
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
 
     "ckc",
 

@@ -1,9 +1,14 @@
+# These requirements are for local development and testing of the module
+
 # python packaging
 twine==3.1.1
 
 # django stuff
 Django==3.1.8
-djangorestframework==3.11.2
+djangorestframework==3.12.4
+
+# factories
+factory-boy==3.2.0
 
 # tests
 pytest==5.4.1

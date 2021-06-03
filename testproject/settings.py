@@ -6,7 +6,7 @@ DEBUG = True
 BASE_DIR = os.path.dirname(__file__)
 
 # NOTE: We're using Geospatial sqlite jazz
-SPATIALITE_LIBRARY_PATH = '/usr/local/lib/mod_spatialite.dylib'
+# SPATIALITE_LIBRARY_PATH = '/usr/local/lib/mod_spatialite.dylib'
 DATABASES = {
     "default": {
         "ENGINE": "django.contrib.gis.db.backends.spatialite",

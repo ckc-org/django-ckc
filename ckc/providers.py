@@ -22,7 +22,5 @@ try:
             #   ('40.72371', '-73.95097', 'Greenpoint', 'US', 'America/New_York')
             coords = faker.local_latlng(**kwargs)
             return Point(x=float(coords[1]), y=float(coords[0]), srid=4326)
-
-    factory.Faker.add_provider(DjangoGeoPointProvider)
 except ImportError:
     pass

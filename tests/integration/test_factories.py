@@ -5,7 +5,7 @@ from django.contrib.gis.geos import Point
 from testapp.factories import LocationFactory
 
 
-class TestSoftDelete(TestCase):
+class TestFactories(TestCase):
     def test_location_factory_point_works(self):
         location = LocationFactory()
         assert location.geo_point.x

@@ -1,2 +1,2 @@
 # We import here to run the faker factory add_provider stuff...
-from . import providers
+from . import providers  # noqa: F401

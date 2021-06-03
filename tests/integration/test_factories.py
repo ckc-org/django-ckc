@@ -1,3 +1,4 @@
+import pytest
 from django.test import TestCase
 
 from django.contrib.gis.geos import Point
@@ -5,6 +6,7 @@ from django.contrib.gis.geos import Point
 from testapp.factories import LocationFactory
 
 
+@pytest.mark.django_db
 class TestFactories(TestCase):
     def test_location_factory_point_works(self):
         location = LocationFactory()

@@ -42,7 +42,7 @@ jobs:
 
         echo "Django version set to '${{ matrix.django-version }}' and DRF set to '$DRF_VERSION' in requirements.txt"
         sed -i 's/Django==.*/Django${{ matrix.django-version }}/' requirements.txt
-        sed -i "s/djangorestframework==.\*/djangorestframework==$DRF_VERSION" requirements.txt
+        sed -i "s/djangorestframework==.\*/djangorestframework==$DRF_VERSION/" requirements.txt
         pip install -r requirements.txt
     - name: Lint with flake8
       run: |

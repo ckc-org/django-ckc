@@ -1,5 +1,7 @@
 # Doing a try/except here so we don't force end users of the
 # django-ckc module to install factory boy.
+from django.core.exceptions import ImproperlyConfigured
+
 try:
     import factory
     from django.contrib.gis.geos import Point
@@ -22,5 +24,5 @@ try:
             #   ('40.72371', '-73.95097', 'Greenpoint', 'US', 'America/New_York')
             coords = faker.local_latlng(**kwargs)
             return Point(x=float(coords[1]), y=float(coords[0]), srid=4326)
-except ImportError:
+except (ImportError, ImproperlyConfigured):
     pass

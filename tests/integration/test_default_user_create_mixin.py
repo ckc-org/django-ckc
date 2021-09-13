@@ -14,11 +14,7 @@ class TestDefaultUserCreateMixin(APITestCase):
         self.client.force_authenticate(self.user)
 
     def test_default_create_user_mixin_works(self):
-        from django.urls import get_resolver
-        print(get_resolver().reverse_dict.keys())
-
         resp = self.client.post(reverse('modelwithacreator-list'))
-        print(resp.content)
         assert resp.status_code == 201
         assert ModelWithACreator.objects.get(created_by=self.user)
 

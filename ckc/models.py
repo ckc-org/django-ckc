@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class SoftDeleteQuerySet(models.QuerySet):
     def delete(self):
         raise NotImplementedError("delete is not implemented.")

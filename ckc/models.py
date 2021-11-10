@@ -3,7 +3,7 @@ from django.db import models
 
 class SoftDeleteQuerySet(models.QuerySet):
     def delete(self):
-        raise NotImplementedError("Delete is allowed on SoftDeleteQuerySet.")
+        return self.update(deleted=True)
 
 
 class SoftDeleteModelManager(models.Manager):

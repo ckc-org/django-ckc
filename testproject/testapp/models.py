@@ -12,6 +12,10 @@ class AModel(SoftDeletableModel):
     title = models.CharField(max_length=255, default="I'm a test!")
 
 
+class BModel(models.Model):
+    a = models.ForeignKey(AModel, on_delete=models.CASCADE)
+
+
 class ModelWithACreator(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 

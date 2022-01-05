@@ -46,6 +46,39 @@ $ docker build -t django-ckc . && docker run django-ckc pytest
 Make your models have a `deleted` bool set when they are deleted instead of actuallying 
 being deleted. Uses a model manager `SoftDeleteModelManager` to keep them hidden.
 
+#### `PrimaryKeyWriteSerializerReadField`
+
+A DRF field for writing via PK and reading via a serializer. Useful for when you want to
+connect 2 models together and immediately display to the user some useful information.
+
+For example, if you had an `Order` model with `LineItem` objects pointing to it, it may be
+useful to create a new line item via order PK and return back the complete order with
+new totals and other calculations:
+
+```py
+class LineItemUpdateSerializer(serializers.ModelSerializer):
+    order = PrimaryKeyWriteSerializerReadField(
+        queryset=Order.objects.all(),
+        read_serializer=OrderDetailSerializer
+    )
+    
+    class Meta:
+        model = LineItem
+        fields = ["id", "order", "product"]
+```
+
+`POST` data for adding product #123 to order #5 would look like 
+
+```js
+// REQUEST
+{"order": 5, "product": 123}"}
+
+// RESPONSE
+{"order": {"total_amount": "$1,000.00"}, "product": 123}
+```
+
+
+
 #### `DefaultUserCreateMixin` for `ModelSerializers`
 
 This will automatically set `YourModel.created_by` to `request.user`. To override which

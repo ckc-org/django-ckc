@@ -1,17 +1,17 @@
 from rest_framework.serializers import ModelSerializer
 
 from ckc.fields import PrimaryKeyWriteSerializerReadField
-from ckc.serializers import DefaultUserCreateMixin
+from ckc.serializers import DefaultCreatedByMixin
 from testapp.models import ModelWithACreator, ModelWithADifferentNamedCreator, AModel, BModel
 
 
-class TestModelWithACreatorSerializer(DefaultUserCreateMixin, ModelSerializer):
+class TestModelWithACreatorSerializer(DefaultCreatedByMixin, ModelSerializer):
     class Meta:
         model = ModelWithACreator
         fields = []
 
 
-class TestModelWithADifferentNamedCreatorSerializer(DefaultUserCreateMixin, ModelSerializer):
+class TestModelWithADifferentNamedCreatorSerializer(DefaultCreatedByMixin, ModelSerializer):
     class Meta:
         model = ModelWithADifferentNamedCreator
         fields = []

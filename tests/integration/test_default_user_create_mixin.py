@@ -7,7 +7,7 @@ from testapp.models import ModelWithACreator, ModelWithADifferentNamedCreator
 User = get_user_model()
 
 
-class TestDefaultUserCreateMixin(APITestCase):
+class TestDefaultCreatedByMixin(APITestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username="test", password="test")

@@ -7,7 +7,7 @@ from testapp.models import AModel, BModel
 User = get_user_model()
 
 
-class TestDefaultUserCreateMixin(APITestCase):
+class TestDefaultCreatedByMixin(APITestCase):
     TEST_TITLE_1 = 'test_title_1'
     TEST_TITLE_2 = 'test_title_2'
 

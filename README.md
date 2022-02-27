@@ -69,7 +69,7 @@ class LineItemUpdateSerializer(serializers.ModelSerializer):
 
 
 
-#### `DefaultUserCreateMixin` for `ModelSerializers`
+#### `DefaultCreatedByMixin` for `ModelSerializers`
 
 This will automatically set `YourModel.created_by` to `request.user`. To override which
 attribute the user is written to, add a `user_field` to your classes Meta information
@@ -79,7 +79,7 @@ class YourModel(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
         
 
-class MySerializer(DefaultUserCreateMixin, ModelSerializer):
+class MySerializer(DefaultCreatedByMixin, ModelSerializer):
     class Meta:
         model = YourModel
 ```

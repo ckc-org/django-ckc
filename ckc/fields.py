@@ -16,4 +16,9 @@ class PrimaryKeyWriteSerializerReadField(serializers.PrimaryKeyRelatedField):
         return False
 
     def to_representation(self, value):
-        return self.read_serializer(value, context=self.context).data
+        # Are we on the browsable API? if so, just return pk!
+        if self.context['request'].META["HTTP_ACCEPT"].startswith("text/html"):
+            return value.pk
+        else:
+            # Normal request, return full item read details
+            return self.read_serializer(value, context=self.context).data

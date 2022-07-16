@@ -11,7 +11,7 @@ djangorestframework==3.12.4
 factory-boy==3.2.0
 
 # tests
-pytest==5.4.1
-pytest-django==3.9.0
+pytest<7
+pytest-django==4.5.2
 pytest-pythonpath==0.7.3
 flake8==3.7.9

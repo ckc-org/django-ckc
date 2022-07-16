@@ -107,6 +107,59 @@ class WhateverTest(TestCase):
 ```
 
 
+#### Slack logging
+
+Get a Slack webhook URL and set `SLACK_WEBHOOK_URL` env var. You can also set `DJANGO_SLACK_LOG_LEVEL`
+with info, warning, etc.
+
+Modify your Celery settings:
+```py
+# Let our slack logger handle celery stuff
+CELERY_WORKER_HIJACK_ROOT_LOGGER = False
+```
+
+Example `LOGGING` configuration that turns on Slack logging if `SLACK_WEBHOOK_URL` env var is found:
+```py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'colored': {
+            '()': 'colorlog.ColoredFormatter',
+            'format': "%(log_color)s%(levelname)-8s%(reset)s %(white)s%(message)s",
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'colored',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        }
+    },
+}
+
+SLACK_WEBHOOK_URL = os.getenv('SLACK_WEBHOOK_URL', '')
+if SLACK_WEBHOOK_URL:
+    LOGGING['handlers']['slack'] = {
+        'class': 'ckc.logging.CkcSlackHandler',
+        'level': os.getenv('DJANGO_SLACK_LOG_LEVEL', 'ERROR'),
+    }
+
+    LOGGING['loggers']['django']['handlers'] = ['console', 'slack']
+    LOGGING['loggers']['']['handlers'] = ['console', 'slack']
+```
+
+
 #### `./manage.py` commands
 
 | command | description|

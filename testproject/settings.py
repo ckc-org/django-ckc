@@ -3,6 +3,8 @@ import os
 
 DEBUG = True
 
+USE_TZ = True
+
 BASE_DIR = os.path.dirname(__file__)
 
 # NOTE: We're using Geospatial sqlite jazz

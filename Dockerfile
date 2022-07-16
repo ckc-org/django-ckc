@@ -1,4 +1,4 @@
-FROM python:3.9.2
+FROM python:3.10.5
 
 # Spatial packages and such
 RUN apt-get update && apt-get install -y libgdal-dev libsqlite3-mod-spatialite

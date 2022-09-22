@@ -17,12 +17,14 @@ try:
         """
 
         def geo_point(self, **kwargs):
-            kwargs['coords_only'] = True
             faker = factory.faker.faker.Faker()
 
-            # local_latlng returns something like:
+            # local_latlng normally returns something like:
             #   ('40.72371', '-73.95097', 'Greenpoint', 'US', 'America/New_York')
-            lat, lon = faker.local_latlng(**kwargs)
+            # with coords_only kwarg, it returns something like:
+            #   ('40.72371', '-73.95097')
+            kwargs.setdefault('coords_only', True)
+            lat, lon, *_ = faker.local_latlng(**kwargs)
             # Point calls for longitude as x and latitude as y
             return Point(x=float(lon), y=float(lat), srid=4326)
 except (ImportError, ImproperlyConfigured):

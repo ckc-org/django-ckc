@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, 3.10.x]
+        # TODO: add 3.11.x when it's ready! Last checked Oct 31, 2022
+        python-version: [3.9, 3.10.x]
         django-version: ['<4', '>=4']
 
     steps:

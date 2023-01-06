@@ -7,7 +7,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
 #        python-version: [3.9.x, 3.10.x, 3.11.x]
@@ -44,12 +44,6 @@ jobs:
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8
-
-    - name: Annoying SQLite step to fix problems with Django >= 4
-      run: |
-        # https://code.djangoproject.com/ticket/32935 -- when this is fixed, remove this!
-        # Last checked Jan 6, 2023
-        PYTHONPATH=.:testproject/ python testproject/manage.py shell -c "import django;django.db.connection.cursor().execute('SELECT InitSpatialMetaData(1);')";
 
     - name: Test with pytest
       run: |

@@ -49,7 +49,7 @@ jobs:
       run: |
         # https://code.djangoproject.com/ticket/32935 -- when this is fixed, remove this!
         # Last checked Jan 6, 2023
-        python testproject/manage.py shell -c "import django;django.db.connection.cursor().execute('SELECT InitSpatialMetaData(1);')";
+        PYTHONPATH=.:testproject/ python testproject/manage.py shell -c "import django;django.db.connection.cursor().execute('SELECT InitSpatialMetaData(1);')";
 
     - name: Test with pytest
       run: |

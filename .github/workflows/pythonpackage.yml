@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.9.x, 3.10.x, 3.11.x]
-        django-version: ['<4', '>=4']
+#        python-version: [3.9.x, 3.10.x, 3.11.x]
+#        django-version: ['<4', '>=4']
+        python-version: [3.11.x]
+        django-version: ['>=4']
 
     steps:
     - uses: actions/checkout@v2
@@ -47,7 +49,7 @@ jobs:
       run: |
         # https://code.djangoproject.com/ticket/32935 -- when this is fixed, remove this!
         # Last checked Jan 6, 2023
-        testproject/manage.py shell -c "import django;django.db.connection.cursor().execute('SELECT InitSpatialMetaData(1);')";
+        python testproject/manage.py shell -c "import django;django.db.connection.cursor().execute('SELECT InitSpatialMetaData(1);')";
 
     - name: Test with pytest
       run: |

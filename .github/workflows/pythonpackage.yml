@@ -34,20 +34,21 @@ jobs:
           ${{ runner.os }}-
     - name: Install dependencies
       run: |
-        export DRF_VERSION=3.12.4
-
-        if [ '${{ matrix.django-version }}' == '<2' ]; then
-          DRF_VERSION=3.11.2
-        fi
-
-        echo "Setting versions Django -> ${{ matrix.django-version }} DRF -> $DRF_VERSION in requirements.txt"
+        echo "Setting versions Django -> ${{ matrix.django-version }} in requirements.txt"
         sed -i 's/Django==.*/Django${{ matrix.django-version }}/' requirements.txt
-        sed -i "s/djangorestframework==.*/djangorestframework==$DRF_VERSION/" requirements.txt
+          
         pip install -r requirements.txt
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8
+
+    - name: Annoying SQLite step to fix problems with Django >= 4
+      run: |
+        # https://code.djangoproject.com/ticket/32935 -- when this is fixed, remove this!
+        # Last checked Jan 6, 2023
+        ./manage.py shell -c "import django;django.db.connection.cursor().execute('SELECT InitSpatialMetaData(1);')";
+
     - name: Test with pytest
       run: |
         pytest

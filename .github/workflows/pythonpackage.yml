@@ -10,10 +10,8 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-#        python-version: [3.9.x, 3.10.x, 3.11.x]
-#        django-version: ['<4', '>=4']
-        python-version: [3.11.x]
-        django-version: ['>=4']
+        python-version: [3.9.x, 3.10.x, 3.11.x]
+        django-version: ['<4', '>=4']
 
     steps:
     - uses: actions/checkout@v2

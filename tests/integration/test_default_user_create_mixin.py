@@ -4,6 +4,7 @@ from rest_framework.test import APITestCase
 
 from testapp.models import ModelWithACreator, ModelWithADifferentNamedCreator
 
+
 User = get_user_model()
 
 

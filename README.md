@@ -160,7 +160,7 @@ if SLACK_WEBHOOK_URL:
 ```
 
 
-#### `SnackbarException`
+#### `SnackbarError`
 
 A little helper that when raised returns a JSON response to the user with a
 snackbar message. This message is automatically rendered as a snackbar by 
@@ -168,12 +168,13 @@ Skeletor.
 
 ```py
 # views.py
-from ckc.exceptions import SnackbarException
+from ckc.exceptions import SnackbarError
+
 
 class TestExceptionsViewSet(APIView):
     def get(self, request, *args, **kwargs):
         # This will return {"snackbar_message": "Something went wrong"}
-        raise SnackbarException("Something went wrong")
+        raise SnackbarError("Something went wrong")
 ```
 
 #### `./manage.py` commands

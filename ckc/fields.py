@@ -5,9 +5,9 @@ from rest_framework import serializers
 
 class PrimaryKeyWriteSerializerReadField(serializers.PrimaryKeyRelatedField):
     """Helper for writing m2m/lists as PKs, while reading via a serializer.
-    
+
     For example:
-    
+
         address = PrimaryKeyWriteSerializerReadField(
            queryset=ShippingAddress.objects.all(),
            read_serializer=ShippingAddressSerializer

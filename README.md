@@ -1,7 +1,6 @@
-django-ckc [<img src="https://ckcollab.com/assets/images/badges/badge.svg" alt="CKC" height="20">](https://ckcollab.com)
+django-ckc
 ==========
-tools, utilities
-, etc. we use across projects @ [ckc](https://ckcollab.com)
+[<img src="https://ckcollab.com/assets/images/badges/badge.svg" alt="CKC" height="15">](https://ckcollab.com)'s tools, utilities, etc. we use across projects for Django
 
 
 ## installing

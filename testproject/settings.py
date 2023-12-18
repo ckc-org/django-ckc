@@ -40,6 +40,8 @@ INSTALLED_APPS = (
     "ckc",
 
     "testapp",
+
+    "djstripe",
 )
 
 STATIC_URL = "/static/"

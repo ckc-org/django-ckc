@@ -55,9 +55,3 @@ class SnapshottedModelMissingOverride(JsonSnapshotModel, models.Model):
     # No _create_json_snapshot here! This is for testing purposes, to confirm we raise
     # an assertion when this method is missing
     pass
-
-
-# ----------------------------------------------------------------------------
-# For testing DJStripe
-# ----------------------------------------------------------------------------
-class 

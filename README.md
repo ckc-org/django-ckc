@@ -25,7 +25,7 @@ INSTALLED_APPS = (
 ## tests
 
 ```bash
-$ docker build -t django-ckc . && docker run django-ckc pytest
+$ docker build -t django-ckc . && docker run --env-file .env django-ckc pytest 
 ```
 
 ## what's in this

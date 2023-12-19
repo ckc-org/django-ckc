@@ -1,5 +1,6 @@
 import os
 
+import stripe
 
 DEBUG = True
 
@@ -54,3 +55,19 @@ TEMPLATES = [
         "APP_DIRS": True
     }
 ]
+
+# =============================================================================
+# Stripe
+# =============================================================================
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+STRIPE_PRIVATE_KEY = os.environ.get('STRIPE_PRIVATE_KEY')
+DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
+stripe.api_key = STRIPE_PRIVATE_KEY
+
+# =============================================================================
+# DJStripe
+# =============================================================================
+STRIPE_LIVE_SECRET_KEY = STRIPE_PRIVATE_KEY
+STRIPE_TEST_SECRET_KEY = STRIPE_PRIVATE_KEY
+DJSTRIPE_USE_NATIVE_JSONFIELD = True
+STRIPE_LIVE_MODE = False  # Change to True in production

@@ -1,3 +1,8 @@
+import stripe
+from djstripe.models import PaymentMethod, Customer
+
+from rest_framework import serializers
+
 class DefaultCreatedByMixin:
     """This will automatically set `YourModel.created_by` to `request.user`. To override which
     attribute the user is written to, add a `user_field` to your classes Meta information
@@ -25,3 +30,47 @@ class DefaultCreatedByMixin:
                                 'and overwrote context?')
             validated_data[user_field] = self.context['request'].user
         return super().create(validated_data)
+
+
+class PaymentMethodSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = PaymentMethod
+        fields = (
+            'token',
+            'id',
+            'type',
+
+            # 'customer',
+            # 'stripe_id',
+            # 'card_brand',
+            # 'card_last4',
+            # 'card_exp_month',
+            # 'card_exp_year',
+            # 'is_default',
+            # 'created',
+            # 'modified',
+        )
+        read_only_fields = (
+            'id',
+            'type',
+            # 'customer',
+            # 'stripe_id',
+            # 'card_brand',
+            # 'card_last4',
+            # 'card_exp_month',
+            # 'card_exp_year',
+            # 'is_default',
+            # 'created',
+            # 'modified',
+        )
+
+    def create(self, validated_data):
+        customer, created = Customer.get_or_create(subscriber=self.context['request'].user)
+        try:
+            payment_method = customer.add_payment_method(validated_data['token'])
+        except (stripe.error.InvalidRequestError) as e:
+            raise serializers.ValidationError(e)
+
+        return payment_method

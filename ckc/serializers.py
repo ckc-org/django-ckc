@@ -38,7 +38,7 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentMethod
         fields = (
-            'token',
+            'pm_id',
             'id',
             'type',
 
@@ -69,7 +69,7 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         customer, created = Customer.get_or_create(subscriber=self.context['request'].user)
         try:
-            payment_method = customer.add_payment_method(validated_data['token'])
+            payment_method = customer.add_payment_method(validated_data['pm_id'])
         except (stripe.error.InvalidRequestError) as e:
             raise serializers.ValidationError(e)
 

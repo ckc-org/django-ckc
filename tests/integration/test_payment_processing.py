@@ -1,13 +1,12 @@
 import json
 
-import stripe
 from django.urls import reverse
 from djstripe.models import PaymentMethod, Customer
 from rest_framework.test import APITestCase
 
 from django.contrib.auth import get_user_model
 
-from ckc.management.utils.payments import create_checkout_session, create_payment_intent, confirm_payment_intent
+from ckc.utils.payments import create_checkout_session, create_payment_intent, confirm_payment_intent
 
 User = get_user_model()
 

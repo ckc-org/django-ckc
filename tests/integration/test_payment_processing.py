@@ -1,3 +1,5 @@
+import json
+
 import stripe
 from django.urls import reverse
 from djstripe.models import PaymentMethod, Customer
@@ -67,11 +69,12 @@ class TestExceptions(APITestCase):
 
         # assert payment intent confirmation
         response_data, status_code = confirm_payment_intent(intent.id)
+
         assert status_code == 200
-        assert response_data.get('success', False)
+        assert json.loads(response_data).get('success', False)
 
         # automatic payment intent confirmation
-        intent = create_payment_intent(payment_method.id, 2000, confirmation_method="automatic")
+        intent = create_payment_intent(payment_method.id, customer.id,  2000, confirmation_method="automatic")
         assert intent is not None
         assert intent.status == "succeeded"
 

@@ -80,9 +80,14 @@ def create_payment_intent(payment_method_id, customer_id, amount, currency="usd"
             payment_method=payment_method_id,
             amount=amount,
             currency=currency,
-            confirmation_method=confirmation_method,
+            # confirmation_method=confirmation_method,
             confirm=confirmation_method == "automatic",
             api_key=settings.STRIPE_PRIVATE_KEY,
+            automatic_payment_methods={
+                "enabled": True,
+                "allow_redirects": 'never'
+            },
+
         )
     except stripe.error.CardError:
         pass

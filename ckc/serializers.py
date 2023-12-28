@@ -1,5 +1,5 @@
 import stripe
-from djstripe.models import PaymentMethod, Customer
+from djstripe.models import PaymentMethod, Customer, Price, Product
 
 from rest_framework import serializers
 
@@ -74,3 +74,37 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(e)
 
         return payment_method
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = (
+            'id',
+            'name',
+            'description',
+            'type',
+        )
+        read_only_fields = (
+            'id',
+            'name',
+            'description',
+            'type',
+        )
+
+
+class PriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Price
+        fields = (
+            'id',
+            'unit_amount',
+            'currency',
+            'recurring',
+        )
+        read_only_fields = (
+            'id',
+            'unit_amount',
+            'currency',
+            'recurring',
+        )

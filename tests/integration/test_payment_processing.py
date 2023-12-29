@@ -2,14 +2,15 @@ import json
 
 import stripe
 from django.urls import reverse
-from djstripe.models import PaymentMethod, Customer, Price, Product
+from djstripe.models import PaymentMethod, Customer
+from djstripe.sync import sync_subscriber
 # from djstripe.core import Price
 from rest_framework.test import APITestCase
 
 from django.contrib.auth import get_user_model
 
-from ckc.utils.payments import create_checkout_session, create_payment_intent, confirm_payment_intent
-from tests.integration.utils import create_subscription_plan
+from ckc.stripe.utils.payments import create_checkout_session, create_payment_intent, confirm_payment_intent
+from ckc.stripe.utils.subscriptions import create_price
 
 User = get_user_model()
 
@@ -82,14 +83,21 @@ class TestPaymentProcessing(APITestCase):
 
     def test_subscriptions(self):
         # create the subscription plan through dj stripe price object
-        price = create_subscription_plan(2000, "month", product_name="Sample Product Name: 0", currency="usd")
+        price = create_price(2000, "month", product_name="Sample Product Name: 0", currency="usd")
         assert price is not None
         assert price.id is not None
 
         customer, created = Customer.get_or_create(subscriber=self.user)
         customer.add_payment_method("pm_card_visa")
         # subscribe the customer to the plan
-        subscription = customer.subscribe(price=price.id)
+        url = reverse('subscriptions-subscribe')
+        payload = {"price_id": price.id}
+        resp = self.client.post(url, data=payload, format='json')
+        assert resp.status_code == 204
+
+        customer, created = Customer.get_or_create(subscriber=self.user)
+        subscription = customer.subscription
+        assert subscription
 
         stripe_sub = stripe.Subscription.retrieve(subscription.id)
         assert stripe_sub is not None
@@ -97,14 +105,19 @@ class TestPaymentProcessing(APITestCase):
         assert stripe_sub.customer == customer.id
 
         # cancel the subscription
-        subscription.cancel()
-        stripe_sub = stripe.Subscription.retrieve(subscription.id)
+        url = reverse('subscriptions-cancel')
+        resp = self.client.post(url, format='json')
+        assert resp.status_code == 204
+        customer = sync_subscriber(self.user)
+        subscription = customer.subscription
+        assert not subscription
+        stripe_sub = stripe.Subscription.retrieve(stripe_sub.id)
         assert stripe_sub is not None
         assert stripe_sub.status == "canceled"
 
     def test_subscription_plan_list(self):
         for i in range(3):
-            create_subscription_plan(2000 + i, "month", product_name=f"Sample Product Name: {i}", currency="usd")
+            create_price(2000 + i, "month", product_name=f"Sample Product Name: {i}", currency="usd")
 
         url = reverse('prices-list')
         resp = self.client.get(url)

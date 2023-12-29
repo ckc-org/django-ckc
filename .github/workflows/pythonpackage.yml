@@ -4,6 +4,10 @@ on:
   push:
     branches: [ '*' ]
 
+env:
+  STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
+  STRIPE_PRIVATE_KEY: ${{ secrets.STRIPE_PRIVATE_KEY }}
+
 jobs:
   build:
 

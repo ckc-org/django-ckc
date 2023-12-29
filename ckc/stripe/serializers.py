@@ -4,7 +4,7 @@ from djstripe.models import PaymentMethod, Customer, Price, Product
 from rest_framework import serializers
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
-    token = serializers.CharField(write_only=True)
+    pm_id = serializers.CharField(write_only=True)
 
     class Meta:
         model = PaymentMethod

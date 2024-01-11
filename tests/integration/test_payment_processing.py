@@ -2,7 +2,7 @@ import json
 
 import stripe
 from django.urls import reverse
-from djstripe.models import PaymentMethod, Customer
+from djstripe.models import PaymentMethod, Customer, Price
 from djstripe.sync import sync_subscriber
 # from djstripe.core import Price
 from rest_framework.test import APITestCase
@@ -117,9 +117,16 @@ class TestPaymentProcessing(APITestCase):
 
     def test_subscription_plan_list(self):
         for i in range(3):
-            create_price(2000 + i, "month", product_name=f"Sample Product Name: {i}", currency="usd")
+            prod_name = f"Sample Product Name: {i}"
+            create_price(2000 + i, "month", product_name=prod_name, nickname=prod_name, currency="usd")
 
         url = reverse('prices-list')
         resp = self.client.get(url)
         assert resp.status_code == 200
         assert len(resp.data) == 3
+        from pprint import pprint
+        pprint(resp.data)
+
+        for i in range(3):
+            assert resp.data[i]['unit_amount'] / 100 == 2000 + i
+            assert resp.data[i]['nickname'] == f"Sample Product Name: {i}"

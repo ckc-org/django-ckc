@@ -72,12 +72,14 @@ class PriceSerializer(serializers.ModelSerializer):
             'unit_amount',
             'currency',
             'recurring',
+            'nickname',
         )
         read_only_fields = (
             'id',
             'unit_amount',
             'currency',
             'recurring',
+            'nickname',
         )
 
 

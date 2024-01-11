@@ -77,7 +77,7 @@ class TestPaymentProcessing(APITestCase):
         assert json.loads(response_data).get('success', False)
 
         # automatic payment intent confirmation
-        intent = create_payment_intent(payment_method.id, customer.id,  2000, confirmation_method="automatic")
+        intent = create_payment_intent(payment_method.id, customer.id, 2000, confirmation_method="automatic")
         assert intent is not None
         assert intent.status == "succeeded"
 

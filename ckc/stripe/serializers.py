@@ -42,7 +42,7 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
         customer, created = Customer.get_or_create(subscriber=self.context['request'].user)
         try:
             payment_method = customer.add_payment_method(validated_data['pm_id'])
-        except (stripe.error.InvalidRequestError) as e:
+        except stripe.error.InvalidRequestError as e:
             raise serializers.ValidationError(e)
 
         return payment_method

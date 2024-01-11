@@ -4,7 +4,7 @@
 twine==4.0.2
 
 # django stuff
-Django==5.0
+Django==5.0.1
 djangorestframework==3.14.0
 pytz==2023.3
 

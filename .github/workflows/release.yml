@@ -20,5 +20,8 @@ jobs:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
+        # remove testproject so it's not in the distribution
+        rm -rf testproject
+      
         python setup.py sdist bdist_wheel
         twine upload dist/*

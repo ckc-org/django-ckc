@@ -183,6 +183,11 @@ class TestExceptionsViewSet(APIView):
 | `upload_file <source> <destination>` | uses `django-storages` settings to upload a file |
 
 ### djstripe
+#### env vars
+```bash
+STRIPE_PUBLIC_KEY=sk_test_...
+STRIPE_PRIVATE_KEY=pk_test_...
+```
 
 #### Create and charge a payment intent 
 ```py

@@ -11,7 +11,6 @@ router.register(r'creators', TestModelWithACreatorViewSet)
 router.register(r'creators-alternative', TestModelWithADifferentNamedCreatorViewSet)
 router.register(r'bmodel', BModelViewSet)
 router.register(r'payment-methods', PaymentMethodViewSet, basename='payment-methods')
-# router.register(r'subscription-plans', SubscriptionPlanViewSet, basename='subscription-plans')
 router.register(r'prices', PriceViewSet, basename='prices')
 router.register(r'subscriptions', SubscribeViewSet, basename='subscriptions')
 

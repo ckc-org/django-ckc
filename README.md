@@ -181,3 +181,43 @@ class TestExceptionsViewSet(APIView):
 | command | description|
 | :---        |    :----:   |
 | `upload_file <source> <destination>` | uses `django-storages` settings to upload a file |
+
+### djstripe
+
+#### Create and charge a payment intent 
+```py
+from ckc.stripe.utils.payments import create_payment_intent, confirm_payment_intent
+#for manual control
+intent = create_payment_intent(payment_method.id, customer.id, 2000, confirmation_method="manual")
+response_data, status_code = confirm_payment_intent(intent.id)
+# alternatively, you can have stripe auto charge the intent
+intent = create_payment_intent(payment_method.id, customer.id,  2000, confirmation_method="automatic")
+```
+
+#### setting up a subscription plan
+A subscription plan is a product with a recurring price. We will create a price and  supply it with product info. the product will be auto created. You can create a plan with the following code:
+
+```py
+from ckc.stripe.utils.subscriptions import create_price
+price = create_price(2000, "month", product_name="Sample Product Name: 0", currency="usd")
+```
+
+subscribing a user to a subscription using a Price object
+using the `subsciptions` endpoint you a user can be subscribed to a plan.
+
+note: you will need to setup a payment method for the user before subscribing them to a plan. see below for more info 
+```js
+// REQUEST from a signed in user that wishes to subscribe to a plan
+axios.post("/subscriptions/subscribe/", { price_id: price.id })
+```
+
+#### Creating a payment method
+using the stripe card element on the frontend, obtain a payment method id. and pass it up to the frontend to attach to a customer
+```js
+// REQUEST from a signed in user that wishes to create a payment method
+axios.post("/payment-methods/", { pm_id: pm.id })
+```
+
+
+
+

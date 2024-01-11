@@ -2,7 +2,7 @@ import json
 
 import stripe
 from django.urls import reverse
-from djstripe.models import PaymentMethod, Customer, Price
+from djstripe.models import PaymentMethod, Customer
 from djstripe.sync import sync_subscriber
 # from djstripe.core import Price
 from rest_framework.test import APITestCase

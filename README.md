@@ -203,8 +203,35 @@ from ckc.stripe.subscriptions import create_price
 
 price = create_price(2000, "month", product_name="Sample Product Name: 0", currency="usd")
 ```
+#### setting up signal handlers
+there are two signals that can be used. `post_subscribe` and `post_cancel`. you can use them like so:
 
-subscribing a user to a subscription using a Price object
+in signal_handlers.py
+```py
+
+from django.dispatch import receiver
+from ckc.stripe.signals import post_subscribe
+from ckc.stripe.views import SubscribeViewSet
+
+
+@receiver(post_subscribe, sender=SubscribeViewSet)
+def subscribe_signal_handler(sender, **kwargs):
+    # your custom logic.
+    # kwargs will contain the following:
+    #   user: the user that was subscribed
+    #   subscription: the subscription object
+    pass
+```
+in apps.py
+```py
+from django.apps import AppConfig
+class YourAppConfig(AppConfig):
+    name = "your_app"
+    def ready(self):
+        import your_app.signal_handlers
+```
+
+#### subscribing a user to a subscription using a Price object
 using the `subsciptions` endpoint you a user can be subscribed to a plan.
 
 note: you will need to setup a payment method for the user before subscribing them to a plan. see below for more info 

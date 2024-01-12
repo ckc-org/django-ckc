@@ -4,6 +4,7 @@ import stripe
 from djstripe.models import Customer
 
 from django.conf import settings
+from rest_framework.exceptions import ValidationError
 
 
 def create_checkout_session(user, success_url, cancel_url, line_items, metadata=None, payment_method_types=None):
@@ -90,7 +91,7 @@ def create_payment_intent(payment_method_id, customer_id, amount, currency="usd"
 
         )
     except stripe.error.CardError:
-        pass
+        raise ValidationError("Error encountered while creating payment intent")
     return intent
 
 

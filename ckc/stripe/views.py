@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from ckc.stripe.serializers import PaymentMethodSerializer, PriceSerializer, SubscribeSerializer
+from ckc.stripe.signals import post_subscribe, post_cancel
 
 
 class PaymentMethodViewSet(viewsets.ModelViewSet):
@@ -42,12 +43,15 @@ class SubscribeViewSet(viewsets.ViewSet):
         serializer = SubscribeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        customer.subscribe(price=serializer.data['price_id'])
+        subscription = customer.subscribe(price=serializer.data['price_id'])
+        post_subscribe.send(sender=self.__class__, subscription=subscription, user=request.user)
         return Response(status=204)
 
     @action(methods=['post'], detail=False)
     def cancel(self, request):
         # get stripe customer
         customer, created = Customer.get_or_create(subscriber=request.user)
-        customer.subscription.cancel()
+        subscription = customer.subscription
+        subscription.cancel()
+        post_cancel.send(sender=self.__class__, subscription=subscription, user=request.user)
         return Response(status=204)

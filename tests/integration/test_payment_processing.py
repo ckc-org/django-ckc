@@ -1,4 +1,5 @@
 import json
+from unittest.mock import patch
 
 import stripe
 from django.urls import reverse
@@ -9,17 +10,21 @@ from rest_framework.test import APITestCase
 
 from django.contrib.auth import get_user_model
 
-from ckc.stripe.utils.payments import create_checkout_session, create_payment_intent, confirm_payment_intent
-from ckc.stripe.utils.subscriptions import create_price
+from ckc.stripe.payments import create_checkout_session, create_payment_intent, confirm_payment_intent
+from ckc.stripe.subscriptions import create_price
+from testapp.models import SubscriptionThroughModel
 
 User = get_user_model()
 
 
 class TestPaymentProcessing(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user(username="test", password="test")
+        cls.customer, cls.created = Customer.get_or_create(subscriber=cls.user)
+
     def setUp(self):
-        self.user = User.objects.create_user(username="test", password="test")
         self.client.force_authenticate(user=self.user)
-        return super().setUp()
 
     def test_payment_method(self):
         # simulate card being created on the frontend
@@ -98,6 +103,7 @@ class TestPaymentProcessing(APITestCase):
         customer, created = Customer.get_or_create(subscriber=self.user)
         subscription = customer.subscription
         assert subscription
+        assert SubscriptionThroughModel.objects.count() == 1
 
         stripe_sub = stripe.Subscription.retrieve(subscription.id)
         assert stripe_sub is not None
@@ -114,6 +120,7 @@ class TestPaymentProcessing(APITestCase):
         stripe_sub = stripe.Subscription.retrieve(stripe_sub.id)
         assert stripe_sub is not None
         assert stripe_sub.status == "canceled"
+        assert SubscriptionThroughModel.objects.count() == 0
 
     def test_subscription_plan_list(self):
         for i in range(3):

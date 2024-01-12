@@ -14,10 +14,14 @@ def create_price(amount, interval, interval_count=1, currency="usd", product_nam
     @returns stripe.Price
 
     """
-    stripe_product = stripe.Product.create(
-        name=product_name,
-        description="Sample Description",
-    )
+    try:
+
+        stripe_product = stripe.Product.create(
+            name=product_name,
+            description="Sample Description",
+        )
+    except stripe.error.StripeError:
+        raise ValueError("Error creating Stripe Product")
     product = Product.sync_from_stripe_data(stripe_product)
     recurring = kwargs.pop("recurring", {})
     recurring.update({

@@ -17,4 +17,4 @@ pytest-django==4.5.2
 flake8==6.0.0
 
 # payment processing
-dj-stripe==2.8.3
+dj-stripe==2.8.1

@@ -88,7 +88,16 @@ class TestPaymentProcessing(APITestCase):
 
     def test_subscriptions(self):
         # create the subscription plan through dj stripe price object
-        price = create_price(2000, "month", product_name="Sample Product Name: 0", currency="usd")
+        price = create_price(
+            dict(name="Sample Product Name: 0", description='sample description'),
+            amount=2000,
+            recurring={
+                "interval": "month",
+                "interval_count": 1,
+            },
+            product_name="Sample Product Name: 0",
+            currency="usd"
+        )
         assert price is not None
         assert price.id is not None
 
@@ -125,7 +134,17 @@ class TestPaymentProcessing(APITestCase):
     def test_subscription_plan_list(self):
         for i in range(3):
             prod_name = f"Sample Product Name: {i}"
-            create_price(2000 + i, "month", product_name=prod_name, nickname=prod_name, currency="usd")
+            price = create_price(
+                dict(name=prod_name, description='sample description'),
+                recurring={
+                    "interval": "month",
+                    "interval_count": 1,
+                },
+                nickname=prod_name,
+                active=True,
+                amount=2000 + i,
+                currency="usd"
+            )
 
         url = reverse('prices-list')
         resp = self.client.get(url)

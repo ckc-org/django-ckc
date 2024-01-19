@@ -231,21 +231,33 @@ class YourAppConfig(AppConfig):
         import your_app.signal_handlers
 ```
 
-#### subscribing a user to a subscription using a Price object
-using the `subsciptions` endpoint you a user can be subscribed to a plan.
+[//]: # (#### subscribing a user to a subscription using a Price object)
 
-note: you will need to setup a payment method for the user before subscribing them to a plan. see below for more info 
-```js
-// REQUEST from a signed in user that wishes to subscribe to a plan
-axios.post("/subscriptions/subscribe/", { price_id: price.id })
-```
+[//]: # (using the `subsciptions` endpoint you a user can be subscribed to a plan.)
 
-#### Creating a payment method
-using the stripe card element on the frontend, obtain a payment method id. and pass it up to the frontend to attach to a customer
-```js
-// REQUEST from a signed in user that wishes to create a payment method
-axios.post("/payment-methods/", { pm_id: pm.id })
-```
+[//]: # ()
+[//]: # (note: you will need to setup a payment method for the user before subscribing them to a plan. see below for more info )
+
+[//]: # (```js)
+
+[//]: # (// REQUEST from a signed in user that wishes to subscribe to a plan)
+
+[//]: # (axios.post&#40;"/subscriptions/subscribe/", { price_id: price.id }&#41;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (#### Creating a payment method)
+
+[//]: # (using the stripe card element on the frontend, obtain a payment method id. and pass it up to the frontend to attach to a customer)
+
+[//]: # (```js)
+
+[//]: # (// REQUEST from a signed in user that wishes to create a payment method)
+
+[//]: # (axios.post&#40;"/payment-methods/", { pm_id: pm.id }&#41;)
+
+[//]: # (```)
 
 #### `./manage.py` commands
 

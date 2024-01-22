@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db.models import PointField
 from django.db import models
+from djstripe.models import Subscription
 
 from ckc.models import SoftDeletableModel, JsonSnapshotModel
 
@@ -55,3 +56,10 @@ class SnapshottedModelMissingOverride(JsonSnapshotModel, models.Model):
     # No _create_json_snapshot here! This is for testing purposes, to confirm we raise
     # an assertion when this method is missing
     pass
+
+# ----------------------------------------------------------------------------
+# For testing Subscription signals
+# ----------------------------------------------------------------------------
+class SubscriptionThroughModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)

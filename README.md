@@ -25,7 +25,7 @@ INSTALLED_APPS = (
 ## tests
 
 ```bash
-$ docker build -t django-ckc . && docker run django-ckc pytest
+$ docker build -t django-ckc . && docker run --env-file .env django-ckc pytest 
 ```
 
 ## what's in this
@@ -175,6 +175,89 @@ class TestExceptionsViewSet(APIView):
         # This will return {"snackbar_message": "Something went wrong"}
         raise SnackbarError("Something went wrong")
 ```
+
+### Payment helpers ([dj-stripe](https://dj-stripe.dev/))
+#### env vars
+```bash
+STRIPE_PUBLIC_KEY=sk_test_...
+STRIPE_PRIVATE_KEY=pk_test_...
+```
+
+#### Create and charge a payment intent
+
+```py
+from ckc.stripe.payments import create_payment_intent, confirm_payment_intent
+
+# for manual control
+intent = create_payment_intent(payment_method.id, customer.id, 2000, confirmation_method="manual")
+response_data, status_code = confirm_payment_intent(intent.id)
+# alternatively, you can have stripe auto charge the intent
+intent = create_payment_intent(payment_method.id, customer.id, 2000, confirmation_method="automatic")
+```
+
+#### setting up a subscription plan
+A subscription plan is a product with a recurring price. We will create a price and  supply it with product info. the product will be auto created. You can create a plan with the following code:
+
+```py
+from ckc.stripe.subscriptions import create_price
+
+price = create_price(2000, "month", product_name="Sample Product Name: 0", currency="usd")
+```
+#### setting up signal handlers
+there are two signals that can be used. `post_subscribe` and `post_cancel`. you can use them like so:
+
+in signal_handlers.py
+```py
+
+from django.dispatch import receiver
+from ckc.stripe.signals import post_subscribe
+from ckc.stripe.views import SubscribeViewSet
+
+
+@receiver(post_subscribe, sender=SubscribeViewSet)
+def subscribe_signal_handler(sender, **kwargs):
+    # your custom logic.
+    # kwargs will contain the following:
+    #   user: the user that was subscribed
+    #   subscription: the subscription object
+    pass
+```
+in apps.py
+```py
+from django.apps import AppConfig
+class YourAppConfig(AppConfig):
+    name = "your_app"
+    def ready(self):
+        import your_app.signal_handlers
+```
+
+[//]: # (#### subscribing a user to a subscription using a Price object)
+
+[//]: # (using the `subsciptions` endpoint you a user can be subscribed to a plan.)
+
+[//]: # ()
+[//]: # (note: you will need to setup a payment method for the user before subscribing them to a plan. see below for more info )
+
+[//]: # (```js)
+
+[//]: # (// REQUEST from a signed in user that wishes to subscribe to a plan)
+
+[//]: # (axios.post&#40;"/subscriptions/subscribe/", { price_id: price.id }&#41;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (#### Creating a payment method)
+
+[//]: # (using the stripe card element on the frontend, obtain a payment method id. and pass it up to the frontend to attach to a customer)
+
+[//]: # (```js)
+
+[//]: # (// REQUEST from a signed in user that wishes to create a payment method)
+
+[//]: # (axios.post&#40;"/payment-methods/", { pm_id: pm.id }&#41;)
+
+[//]: # (```)
 
 #### `./manage.py` commands
 

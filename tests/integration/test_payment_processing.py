@@ -134,7 +134,7 @@ class TestPaymentProcessing(APITestCase):
     def test_subscription_plan_list(self):
         for i in range(3):
             prod_name = f"Sample Product Name: {i}"
-            price = create_price(
+            create_price(
                 dict(name=prod_name, description='sample description'),
                 recurring={
                     "interval": "month",
